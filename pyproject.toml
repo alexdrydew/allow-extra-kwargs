@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "allow-extra-kwargs"
-version = "0.1.0"
+version = "0.1.1"
 description = "A plugin for mypy that allows extra kwargs in function calls"
 authors = ["Alexey Sukhorosov"]
 readme = "README.md"
