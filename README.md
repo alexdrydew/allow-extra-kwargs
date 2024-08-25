@@ -1,5 +1,8 @@
 # allow-extra-kwargs
 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/alexdrydew/allow-extra-kwargs/tests.yml)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/allow-extra-kwargs)
+
 A plugin for mypy that allows extra kwargs in function calls.
 
 ## Description
