@@ -1,0 +1,40 @@
+- case: basic
+  main: |
+    from allow_extra_kwargs import allow_extra_kwargs
+    @allow_extra_kwargs
+    def func(a: int) -> int:
+        return a
+    reveal_type(func)  # N: Revealed type is "def (a: builtins.int, **kwargs: Any) -> builtins.int"
+- case: disallow_typed_kwargs
+  main: |
+    from allow_extra_kwargs import allow_extra_kwargs
+    @allow_extra_kwargs
+    def func(a: int, **kwargs: int) -> int:
+        return a
+  out: |
+    main:2: error: Cannot use allow_extra_kwargs with a function that already has a typed **kwargs parameter which is not an unpacked TypedDict  [valid-type]
+- case: do_nothing_on_implicitly_untyped_kwargs
+  main: |
+    from allow_extra_kwargs import allow_extra_kwargs
+    @allow_extra_kwargs
+    def func(a: int, **kwargs) -> int:
+        return a
+    reveal_type(func)  # N: Revealed type is "def (a: builtins.int, **kwargs: Any) -> builtins.int"
+- case: do_nothing_on_explicitly_untyped_kwargs
+  main: |
+    from allow_extra_kwargs import allow_extra_kwargs
+    from typing import Any
+    @allow_extra_kwargs
+    def func(a: int, **kwargs: Any) -> int:
+        return a
+    reveal_type(func)  # N: Revealed type is "def (a: builtins.int, **kwargs: Any) -> builtins.int"
+- case: unpacked_kwargs
+  main: |
+    from allow_extra_kwargs import allow_extra_kwargs
+    from typing_extensions import TypedDict, Unpack
+    class Kwargs(TypedDict):
+        b: int
+    @allow_extra_kwargs
+    def func(a: int, **kwargs: Unpack[Kwargs]) -> int:
+        return a
+    reveal_type(func)  # N: Revealed type is "def (a: builtins.int, *, b: builtins.int, **kwargs: Any) -> builtins.int"
